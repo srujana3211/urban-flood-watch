@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OpsRouteImport } from './routes/_ops'
 import { Route as OpsIndexRouteImport } from './routes/_ops.index'
+import { Route as OpsAdaptationRouteImport } from './routes/_ops.adaptation'
 import { Route as OpsMapRouteImport } from './routes/_ops.map'
+import { Route as OpsObservationRouteImport } from './routes/_ops.observation'
+import { Route as OpsPredictionRouteImport } from './routes/_ops.prediction'
 import { Route as OpsZonesRouteImport } from './routes/_ops.zones'
 
 const OpsRoute = OpsRouteImport.update({
@@ -23,9 +26,24 @@ const OpsIndexRoute = OpsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => OpsRoute,
 } as any)
+const OpsAdaptationRoute = OpsAdaptationRouteImport.update({
+  id: '/adaptation',
+  path: '/adaptation',
+  getParentRoute: () => OpsRoute,
+} as any)
 const OpsMapRoute = OpsMapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsObservationRoute = OpsObservationRouteImport.update({
+  id: '/observation',
+  path: '/observation',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsPredictionRoute = OpsPredictionRouteImport.update({
+  id: '/prediction',
+  path: '/prediction',
   getParentRoute: () => OpsRoute,
 } as any)
 const OpsZonesRoute = OpsZonesRouteImport.update({
@@ -36,27 +54,45 @@ const OpsZonesRoute = OpsZonesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof OpsIndexRoute
+  '/adaptation': typeof OpsAdaptationRoute
   '/map': typeof OpsMapRoute
+  '/observation': typeof OpsObservationRoute
+  '/prediction': typeof OpsPredictionRoute
   '/zones': typeof OpsZonesRoute
 }
 export interface FileRoutesByTo {
+  '/adaptation': typeof OpsAdaptationRoute
   '/map': typeof OpsMapRoute
+  '/observation': typeof OpsObservationRoute
+  '/prediction': typeof OpsPredictionRoute
   '/zones': typeof OpsZonesRoute
   '/': typeof OpsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_ops': typeof OpsRouteWithChildren
+  '/_ops/adaptation': typeof OpsAdaptationRoute
   '/_ops/map': typeof OpsMapRoute
+  '/_ops/observation': typeof OpsObservationRoute
+  '/_ops/prediction': typeof OpsPredictionRoute
   '/_ops/zones': typeof OpsZonesRoute
   '/_ops/': typeof OpsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/map' | '/zones'
+  fullPaths:
+    '/' | '/adaptation' | '/map' | '/observation' | '/prediction' | '/zones'
   fileRoutesByTo: FileRoutesByTo
-  to: '/map' | '/zones' | '/'
-  id: '__root__' | '/_ops' | '/_ops/map' | '/_ops/zones' | '/_ops/'
+  to: '/adaptation' | '/map' | '/observation' | '/prediction' | '/zones' | '/'
+  id:
+    | '__root__'
+    | '/_ops'
+    | '/_ops/adaptation'
+    | '/_ops/map'
+    | '/_ops/observation'
+    | '/_ops/prediction'
+    | '/_ops/zones'
+    | '/_ops/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -79,11 +115,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsIndexRouteImport
       parentRoute: typeof OpsRoute
     }
+    '/_ops/adaptation': {
+      id: '/_ops/adaptation'
+      path: '/adaptation'
+      fullPath: '/adaptation'
+      preLoaderRoute: typeof OpsAdaptationRouteImport
+      parentRoute: typeof OpsRoute
+    }
     '/_ops/map': {
       id: '/_ops/map'
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof OpsMapRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/observation': {
+      id: '/_ops/observation'
+      path: '/observation'
+      fullPath: '/observation'
+      preLoaderRoute: typeof OpsObservationRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/prediction': {
+      id: '/_ops/prediction'
+      path: '/prediction'
+      fullPath: '/prediction'
+      preLoaderRoute: typeof OpsPredictionRouteImport
       parentRoute: typeof OpsRoute
     }
     '/_ops/zones': {
@@ -97,13 +154,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface OpsRouteChildren {
+  OpsAdaptationRoute: typeof OpsAdaptationRoute
   OpsMapRoute: typeof OpsMapRoute
+  OpsObservationRoute: typeof OpsObservationRoute
+  OpsPredictionRoute: typeof OpsPredictionRoute
   OpsZonesRoute: typeof OpsZonesRoute
   OpsIndexRoute: typeof OpsIndexRoute
 }
 
 const OpsRouteChildren: OpsRouteChildren = {
+  OpsAdaptationRoute: OpsAdaptationRoute,
   OpsMapRoute: OpsMapRoute,
+  OpsObservationRoute: OpsObservationRoute,
+  OpsPredictionRoute: OpsPredictionRoute,
   OpsZonesRoute: OpsZonesRoute,
   OpsIndexRoute: OpsIndexRoute,
 }
