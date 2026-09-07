@@ -10,9 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OpsRouteImport } from './routes/_ops'
+import { Route as CitizenRouteImport } from './routes/citizen'
 import { Route as OpsIndexRouteImport } from './routes/_ops.index'
 import { Route as OpsAdaptationRouteImport } from './routes/_ops.adaptation'
 import { Route as OpsAlertsRouteImport } from './routes/_ops.alerts'
+import { Route as OpsArchitectureRouteImport } from './routes/_ops.architecture'
+import { Route as OpsDataReadinessRouteImport } from './routes/_ops.data-readiness'
 import { Route as OpsDecisionsRouteImport } from './routes/_ops.decisions'
 import { Route as OpsMapRouteImport } from './routes/_ops.map'
 import { Route as OpsObservationRouteImport } from './routes/_ops.observation'
@@ -23,6 +26,11 @@ import { Route as OpsZonesRouteImport } from './routes/_ops.zones'
 
 const OpsRoute = OpsRouteImport.update({
   id: '/_ops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CitizenRoute = CitizenRouteImport.update({
+  id: '/citizen',
+  path: '/citizen',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpsIndexRoute = OpsIndexRouteImport.update({
@@ -38,6 +46,16 @@ const OpsAdaptationRoute = OpsAdaptationRouteImport.update({
 const OpsAlertsRoute = OpsAlertsRouteImport.update({
   id: '/alerts',
   path: '/alerts',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsArchitectureRoute = OpsArchitectureRouteImport.update({
+  id: '/architecture',
+  path: '/architecture',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsDataReadinessRoute = OpsDataReadinessRouteImport.update({
+  id: '/data-readiness',
+  path: '/data-readiness',
   getParentRoute: () => OpsRoute,
 } as any)
 const OpsDecisionsRoute = OpsDecisionsRouteImport.update({
@@ -78,8 +96,11 @@ const OpsZonesRoute = OpsZonesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof OpsIndexRoute
+  '/citizen': typeof CitizenRoute
   '/adaptation': typeof OpsAdaptationRoute
   '/alerts': typeof OpsAlertsRoute
+  '/architecture': typeof OpsArchitectureRoute
+  '/data-readiness': typeof OpsDataReadinessRoute
   '/decisions': typeof OpsDecisionsRoute
   '/map': typeof OpsMapRoute
   '/observation': typeof OpsObservationRoute
@@ -89,8 +110,11 @@ export interface FileRoutesByFullPath {
   '/zones': typeof OpsZonesRoute
 }
 export interface FileRoutesByTo {
+  '/citizen': typeof CitizenRoute
   '/adaptation': typeof OpsAdaptationRoute
   '/alerts': typeof OpsAlertsRoute
+  '/architecture': typeof OpsArchitectureRoute
+  '/data-readiness': typeof OpsDataReadinessRoute
   '/decisions': typeof OpsDecisionsRoute
   '/map': typeof OpsMapRoute
   '/observation': typeof OpsObservationRoute
@@ -103,8 +127,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_ops': typeof OpsRouteWithChildren
+  '/citizen': typeof CitizenRoute
   '/_ops/adaptation': typeof OpsAdaptationRoute
   '/_ops/alerts': typeof OpsAlertsRoute
+  '/_ops/architecture': typeof OpsArchitectureRoute
+  '/_ops/data-readiness': typeof OpsDataReadinessRoute
   '/_ops/decisions': typeof OpsDecisionsRoute
   '/_ops/map': typeof OpsMapRoute
   '/_ops/observation': typeof OpsObservationRoute
@@ -118,8 +145,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/citizen'
     | '/adaptation'
     | '/alerts'
+    | '/architecture'
+    | '/data-readiness'
     | '/decisions'
     | '/map'
     | '/observation'
@@ -129,8 +159,11 @@ export interface FileRouteTypes {
     | '/zones'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/citizen'
     | '/adaptation'
     | '/alerts'
+    | '/architecture'
+    | '/data-readiness'
     | '/decisions'
     | '/map'
     | '/observation'
@@ -142,8 +175,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_ops'
+    | '/citizen'
     | '/_ops/adaptation'
     | '/_ops/alerts'
+    | '/_ops/architecture'
+    | '/_ops/data-readiness'
     | '/_ops/decisions'
     | '/_ops/map'
     | '/_ops/observation'
@@ -156,6 +192,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   OpsRoute: typeof OpsRouteWithChildren
+  CitizenRoute: typeof CitizenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,6 +202,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof OpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/citizen': {
+      id: '/citizen'
+      path: '/citizen'
+      fullPath: '/citizen'
+      preLoaderRoute: typeof CitizenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_ops/': {
@@ -186,6 +230,20 @@ declare module '@tanstack/react-router' {
       path: '/alerts'
       fullPath: '/alerts'
       preLoaderRoute: typeof OpsAlertsRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/architecture': {
+      id: '/_ops/architecture'
+      path: '/architecture'
+      fullPath: '/architecture'
+      preLoaderRoute: typeof OpsArchitectureRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/data-readiness': {
+      id: '/_ops/data-readiness'
+      path: '/data-readiness'
+      fullPath: '/data-readiness'
+      preLoaderRoute: typeof OpsDataReadinessRouteImport
       parentRoute: typeof OpsRoute
     }
     '/_ops/decisions': {
@@ -243,6 +301,8 @@ declare module '@tanstack/react-router' {
 interface OpsRouteChildren {
   OpsAdaptationRoute: typeof OpsAdaptationRoute
   OpsAlertsRoute: typeof OpsAlertsRoute
+  OpsArchitectureRoute: typeof OpsArchitectureRoute
+  OpsDataReadinessRoute: typeof OpsDataReadinessRoute
   OpsDecisionsRoute: typeof OpsDecisionsRoute
   OpsMapRoute: typeof OpsMapRoute
   OpsObservationRoute: typeof OpsObservationRoute
@@ -256,6 +316,8 @@ interface OpsRouteChildren {
 const OpsRouteChildren: OpsRouteChildren = {
   OpsAdaptationRoute: OpsAdaptationRoute,
   OpsAlertsRoute: OpsAlertsRoute,
+  OpsArchitectureRoute: OpsArchitectureRoute,
+  OpsDataReadinessRoute: OpsDataReadinessRoute,
   OpsDecisionsRoute: OpsDecisionsRoute,
   OpsMapRoute: OpsMapRoute,
   OpsObservationRoute: OpsObservationRoute,
@@ -270,6 +332,7 @@ const OpsRouteWithChildren = OpsRoute._addFileChildren(OpsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   OpsRoute: OpsRouteWithChildren,
+  CitizenRoute: CitizenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
