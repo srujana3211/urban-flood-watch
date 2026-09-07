@@ -36,9 +36,9 @@ export function ZoneDepthChart({ zoneId, tick, clearedTick }: { zoneId: string; 
         <YAxis {...axis} unit="cm" />
         <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "#9fb2c6" }} />
         <Legend wrapperStyle={{ fontSize: 11 }} />
-        <ReferenceLine x={data[SCENARIO.blockageTick]?.time} stroke="var(--observation)" strokeDasharray="3 3" label={{ value: "D17 blocks", fill: "#7fd6ff", fontSize: 10, position: "insideTopLeft" }} />
-        <ReferenceLine x={data[SCENARIO.adaptationTick]?.time} stroke="var(--adaptation)" strokeDasharray="3 3" label={{ value: "adapt", fill: "#c58cff", fontSize: 10, position: "insideTopRight" }} />
-        <ReferenceLine x={data[tick]?.time} stroke="var(--primary)" />
+        <ReferenceLine x={data[SCENARIO.blockageTick]?.time ?? ""} stroke="var(--observation)" strokeDasharray="3 3" label={{ value: "D17 blocks", fill: "#7fd6ff", fontSize: 10, position: "insideTopLeft" }} />
+        <ReferenceLine x={data[SCENARIO.adaptationTick]?.time ?? ""} stroke="var(--adaptation)" strokeDasharray="3 3" label={{ value: "adapt", fill: "#c58cff", fontSize: 10, position: "insideTopRight" }} />
+        <ReferenceLine x={data[tick]?.time ?? ""} stroke="var(--primary)" />
         <Line type="monotone" dataKey="predicted" name="Un-adapted forecast" stroke="var(--prediction)" dot={false} strokeWidth={2} strokeDasharray="4 3" />
         <Line type="monotone" dataKey="adaptive" name="Adaptive forecast" stroke="var(--adaptation)" dot={false} strokeWidth={2} />
         <Line type="monotone" dataKey="observed" name="Observed ponding" stroke="var(--observation)" dot={false} strokeWidth={2.5} />

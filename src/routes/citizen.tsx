@@ -31,9 +31,12 @@ function CitizenPage() {
   const zs = snapshot.zoneById[zone]!;
   const alerts = alertsUpTo(tick).filter((a) => a.zoneId === zone || a.zoneId === "ALL").slice(0, 4);
 
-  const send = async (e: React.FormEvent) => {
+  const send = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    if (!desc.trim()) return toast.error("Please describe what you are seeing.");
+    if (!desc.trim()) {
+      toast.error("Please describe what you are seeing.");
+      return;
+    }
     setBusy(true);
     const { error } = await submitReport({
       zone_id: zone,
