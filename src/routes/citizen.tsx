@@ -78,7 +78,7 @@ function CitizenPage() {
             <RiskBadge level={zs.risk} />
             <span className="font-mono text-sm">{zs.depthCm} cm water · {zs.rainfall} mm/hr rain</span>
           </div>
-          <p className="mt-2 text-sm text-muted-foreground">{zs.advice ?? "Stay alert and avoid low-lying stretches during heavy rain."}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Stay alert and avoid low-lying stretches and underpasses during heavy rain.</p>
           <p className="mt-1 text-[11px] text-muted-foreground">Updated {clockLabel(tick)} (demo clock)</p>
         </section>
 
