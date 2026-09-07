@@ -12,9 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as OpsRouteImport } from './routes/_ops'
 import { Route as OpsIndexRouteImport } from './routes/_ops.index'
 import { Route as OpsAdaptationRouteImport } from './routes/_ops.adaptation'
+import { Route as OpsAlertsRouteImport } from './routes/_ops.alerts'
+import { Route as OpsDecisionsRouteImport } from './routes/_ops.decisions'
 import { Route as OpsMapRouteImport } from './routes/_ops.map'
 import { Route as OpsObservationRouteImport } from './routes/_ops.observation'
 import { Route as OpsPredictionRouteImport } from './routes/_ops.prediction'
+import { Route as OpsResourcesRouteImport } from './routes/_ops.resources'
+import { Route as OpsTimelineRouteImport } from './routes/_ops.timeline'
 import { Route as OpsZonesRouteImport } from './routes/_ops.zones'
 
 const OpsRoute = OpsRouteImport.update({
@@ -29,6 +33,16 @@ const OpsIndexRoute = OpsIndexRouteImport.update({
 const OpsAdaptationRoute = OpsAdaptationRouteImport.update({
   id: '/adaptation',
   path: '/adaptation',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsAlertsRoute = OpsAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsDecisionsRoute = OpsDecisionsRouteImport.update({
+  id: '/decisions',
+  path: '/decisions',
   getParentRoute: () => OpsRoute,
 } as any)
 const OpsMapRoute = OpsMapRouteImport.update({
@@ -46,6 +60,16 @@ const OpsPredictionRoute = OpsPredictionRouteImport.update({
   path: '/prediction',
   getParentRoute: () => OpsRoute,
 } as any)
+const OpsResourcesRoute = OpsResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsTimelineRoute = OpsTimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => OpsRoute,
+} as any)
 const OpsZonesRoute = OpsZonesRouteImport.update({
   id: '/zones',
   path: '/zones',
@@ -55,16 +79,24 @@ const OpsZonesRoute = OpsZonesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof OpsIndexRoute
   '/adaptation': typeof OpsAdaptationRoute
+  '/alerts': typeof OpsAlertsRoute
+  '/decisions': typeof OpsDecisionsRoute
   '/map': typeof OpsMapRoute
   '/observation': typeof OpsObservationRoute
   '/prediction': typeof OpsPredictionRoute
+  '/resources': typeof OpsResourcesRoute
+  '/timeline': typeof OpsTimelineRoute
   '/zones': typeof OpsZonesRoute
 }
 export interface FileRoutesByTo {
   '/adaptation': typeof OpsAdaptationRoute
+  '/alerts': typeof OpsAlertsRoute
+  '/decisions': typeof OpsDecisionsRoute
   '/map': typeof OpsMapRoute
   '/observation': typeof OpsObservationRoute
   '/prediction': typeof OpsPredictionRoute
+  '/resources': typeof OpsResourcesRoute
+  '/timeline': typeof OpsTimelineRoute
   '/zones': typeof OpsZonesRoute
   '/': typeof OpsIndexRoute
 }
@@ -72,25 +104,52 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_ops': typeof OpsRouteWithChildren
   '/_ops/adaptation': typeof OpsAdaptationRoute
+  '/_ops/alerts': typeof OpsAlertsRoute
+  '/_ops/decisions': typeof OpsDecisionsRoute
   '/_ops/map': typeof OpsMapRoute
   '/_ops/observation': typeof OpsObservationRoute
   '/_ops/prediction': typeof OpsPredictionRoute
+  '/_ops/resources': typeof OpsResourcesRoute
+  '/_ops/timeline': typeof OpsTimelineRoute
   '/_ops/zones': typeof OpsZonesRoute
   '/_ops/': typeof OpsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/adaptation' | '/map' | '/observation' | '/prediction' | '/zones'
+    | '/'
+    | '/adaptation'
+    | '/alerts'
+    | '/decisions'
+    | '/map'
+    | '/observation'
+    | '/prediction'
+    | '/resources'
+    | '/timeline'
+    | '/zones'
   fileRoutesByTo: FileRoutesByTo
-  to: '/adaptation' | '/map' | '/observation' | '/prediction' | '/zones' | '/'
+  to:
+    | '/adaptation'
+    | '/alerts'
+    | '/decisions'
+    | '/map'
+    | '/observation'
+    | '/prediction'
+    | '/resources'
+    | '/timeline'
+    | '/zones'
+    | '/'
   id:
     | '__root__'
     | '/_ops'
     | '/_ops/adaptation'
+    | '/_ops/alerts'
+    | '/_ops/decisions'
     | '/_ops/map'
     | '/_ops/observation'
     | '/_ops/prediction'
+    | '/_ops/resources'
+    | '/_ops/timeline'
     | '/_ops/zones'
     | '/_ops/'
   fileRoutesById: FileRoutesById
@@ -122,6 +181,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsAdaptationRouteImport
       parentRoute: typeof OpsRoute
     }
+    '/_ops/alerts': {
+      id: '/_ops/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof OpsAlertsRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/decisions': {
+      id: '/_ops/decisions'
+      path: '/decisions'
+      fullPath: '/decisions'
+      preLoaderRoute: typeof OpsDecisionsRouteImport
+      parentRoute: typeof OpsRoute
+    }
     '/_ops/map': {
       id: '/_ops/map'
       path: '/map'
@@ -143,6 +216,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsPredictionRouteImport
       parentRoute: typeof OpsRoute
     }
+    '/_ops/resources': {
+      id: '/_ops/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof OpsResourcesRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/timeline': {
+      id: '/_ops/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof OpsTimelineRouteImport
+      parentRoute: typeof OpsRoute
+    }
     '/_ops/zones': {
       id: '/_ops/zones'
       path: '/zones'
@@ -155,18 +242,26 @@ declare module '@tanstack/react-router' {
 
 interface OpsRouteChildren {
   OpsAdaptationRoute: typeof OpsAdaptationRoute
+  OpsAlertsRoute: typeof OpsAlertsRoute
+  OpsDecisionsRoute: typeof OpsDecisionsRoute
   OpsMapRoute: typeof OpsMapRoute
   OpsObservationRoute: typeof OpsObservationRoute
   OpsPredictionRoute: typeof OpsPredictionRoute
+  OpsResourcesRoute: typeof OpsResourcesRoute
+  OpsTimelineRoute: typeof OpsTimelineRoute
   OpsZonesRoute: typeof OpsZonesRoute
   OpsIndexRoute: typeof OpsIndexRoute
 }
 
 const OpsRouteChildren: OpsRouteChildren = {
   OpsAdaptationRoute: OpsAdaptationRoute,
+  OpsAlertsRoute: OpsAlertsRoute,
+  OpsDecisionsRoute: OpsDecisionsRoute,
   OpsMapRoute: OpsMapRoute,
   OpsObservationRoute: OpsObservationRoute,
   OpsPredictionRoute: OpsPredictionRoute,
+  OpsResourcesRoute: OpsResourcesRoute,
+  OpsTimelineRoute: OpsTimelineRoute,
   OpsZonesRoute: OpsZonesRoute,
   OpsIndexRoute: OpsIndexRoute,
 }
