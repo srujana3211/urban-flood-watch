@@ -10,32 +10,57 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OpsRouteImport } from './routes/_ops'
+import { Route as OpsIndexRouteImport } from './routes/_ops.index'
+import { Route as OpsMapRouteImport } from './routes/_ops.map'
+import { Route as OpsZonesRouteImport } from './routes/_ops.zones'
 
 const OpsRoute = OpsRouteImport.update({
   id: '/_ops',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpsIndexRoute = OpsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsMapRoute = OpsMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => OpsRoute,
+} as any)
+const OpsZonesRoute = OpsZonesRouteImport.update({
+  id: '/zones',
+  path: '/zones',
+  getParentRoute: () => OpsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof OpsRoute
+  '/': typeof OpsIndexRoute
+  '/map': typeof OpsMapRoute
+  '/zones': typeof OpsZonesRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof OpsRoute
+  '/map': typeof OpsMapRoute
+  '/zones': typeof OpsZonesRoute
+  '/': typeof OpsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_ops': typeof OpsRoute
+  '/_ops': typeof OpsRouteWithChildren
+  '/_ops/map': typeof OpsMapRoute
+  '/_ops/zones': typeof OpsZonesRoute
+  '/_ops/': typeof OpsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/map' | '/zones'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_ops'
+  to: '/map' | '/zones' | '/'
+  id: '__root__' | '/_ops' | '/_ops/map' | '/_ops/zones' | '/_ops/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  OpsRoute: typeof OpsRoute
+  OpsRoute: typeof OpsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -47,11 +72,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_ops/': {
+      id: '/_ops/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof OpsIndexRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/map': {
+      id: '/_ops/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof OpsMapRouteImport
+      parentRoute: typeof OpsRoute
+    }
+    '/_ops/zones': {
+      id: '/_ops/zones'
+      path: '/zones'
+      fullPath: '/zones'
+      preLoaderRoute: typeof OpsZonesRouteImport
+      parentRoute: typeof OpsRoute
+    }
   }
 }
 
+interface OpsRouteChildren {
+  OpsMapRoute: typeof OpsMapRoute
+  OpsZonesRoute: typeof OpsZonesRoute
+  OpsIndexRoute: typeof OpsIndexRoute
+}
+
+const OpsRouteChildren: OpsRouteChildren = {
+  OpsMapRoute: OpsMapRoute,
+  OpsZonesRoute: OpsZonesRoute,
+  OpsIndexRoute: OpsIndexRoute,
+}
+
+const OpsRouteWithChildren = OpsRoute._addFileChildren(OpsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  OpsRoute: OpsRoute,
+  OpsRoute: OpsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
