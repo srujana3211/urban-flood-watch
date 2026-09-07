@@ -47,7 +47,10 @@ function CitizenPage() {
       reporter_name: name.trim(),
     });
     setBusy(false);
-    if (error) return toast.error("Could not send report", { description: error });
+    if (error) {
+      toast.error("Could not send report", { description: error });
+      return;
+    }
     toast.success("Report sent to the flood control room");
     setDesc("");
     setDepth("");
