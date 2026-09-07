@@ -1,6 +1,6 @@
 import "leaflet/dist/leaflet.css";
 import { CircleMarker, MapContainer, Polyline, Rectangle, TileLayer, Tooltip } from "react-leaflet";
-import { CITY, INFRASTRUCTURE, ROADS, ZONE_BY_ID } from "@/data/city";
+import { CITY, INFRASTRUCTURE, ROADS, SENSORS, ZONE_BY_ID } from "@/data/city";
 import { RISK_STYLE } from "@/components/kit";
 import { useSim } from "@/context/sim";
 import type { LayerState } from "./layers";
@@ -46,7 +46,7 @@ export default function FloodMap({
               pathOptions={{
                 color,
                 weight: selected ? 3 : 1.4,
-                fillOpacity: zs.risk === "low" ? 0.1 : 0.16 + RISK_STYLE[zs.risk].hex.length * 0,
+                fillOpacity: zs.risk === "low" ? 0.1 : 0.2,
                 fillColor: color,
                 dashArray: selected ? undefined : "4 3",
               }}
@@ -138,9 +138,7 @@ export default function FloodMap({
 
       {layers.sensors &&
         sensors.map((r) => {
-          const s = ZONE_BY_ID[r.sensorId] ? null : null;
-          void s;
-          const sensor = snapshotSensor(r.sensorId);
+          const sensor = SENSORS.find((x) => x.id === r.sensorId);
           if (!sensor) return null;
           return (
             <CircleMarker
@@ -264,9 +262,4 @@ export default function FloodMap({
           })}
     </MapContainer>
   );
-}
-
-import { SENSORS } from "@/data/city";
-function snapshotSensor(id: string) {
-  return SENSORS.find((s) => s.id === id);
 }
