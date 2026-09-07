@@ -14,7 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      citizen_reports: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          lat: number | null
+          lng: number | null
+          report_type: string
+          reporter_name: string | null
+          severity: string
+          status: string
+          tick: number
+          trust_score: number
+          water_depth_cm: number | null
+          zone_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          report_type: string
+          reporter_name?: string | null
+          severity?: string
+          status?: string
+          tick?: number
+          trust_score?: number
+          water_depth_cm?: number | null
+          zone_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          report_type?: string
+          reporter_name?: string | null
+          severity?: string
+          status?: string
+          tick?: number
+          trust_score?: number
+          water_depth_cm?: number | null
+          zone_id?: string
+        }
+        Relationships: []
+      }
+      decision_log: {
+        Row: {
+          created_at: string
+          decision: string
+          id: string
+          notes: string | null
+          officer_role: string
+          recommendation_id: string
+          tick: number
+          zone_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          decision: string
+          id?: string
+          notes?: string | null
+          officer_role?: string
+          recommendation_id: string
+          tick?: number
+          zone_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          decision?: string
+          id?: string
+          notes?: string | null
+          officer_role?: string
+          recommendation_id?: string
+          tick?: number
+          zone_id?: string | null
+        }
+        Relationships: []
+      }
+      sim_state: {
+        Row: {
+          id: string
+          running: boolean
+          scenario: string
+          speed: number
+          tick: number
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          running?: boolean
+          scenario?: string
+          speed?: number
+          tick?: number
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          running?: boolean
+          scenario?: string
+          speed?: number
+          tick?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
